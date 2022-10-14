@@ -8,29 +8,41 @@ from decouple import config
 
 NEW_REPO_NAME = 'bot'
 
-def publish_bot():
+def publish_bot(notify_callback):
     # stop docker
+    notify_callback('Останавливаю старый docker контейнер...')
     command = 'docker stop $(docker ps -q)'
     # ЖДУ пока поправят requirements.txt
     os.system(command)
+    notify_callback('Done!')
+    notify_callback('Удаляю старые файлы бота...')
     github_bot_url = config('github_bot_url')
     # repo_name, _ = get_repo_name(github_bot_url)
     repo_name = NEW_REPO_NAME
     # удаляем папку которая уже есть
-    command = f'rm -r {repo_name}'
+    command = f'rm -rf {repo_name}'
     os.system(command)
+    notify_callback('Done!')
 
+    notify_callback('Клонирую репозиторий {github_bot_url} (ветка main)...')
     # клонируем репозиторий
     command = f'git clone {github_bot_url} ./{repo_name}'
     os.system(command)
+    notify_callback('Done!')
     # копируем секреты (файл config.py)
+    notify_callback('Копирую секреты...')
     command = f'cp config.py {repo_name}'
     os.system(command)
+    notify_callback('Done!')
     # / ЖДУ пока поправят requirements.txt
+    # JOKE
+    notify_callback('Взламываю твою операционныую систему...')
+    notify_callback('Шучу :)')
     # docker up build
+    notify_callback('Поднимаю бота в docker...')
     command = 'docker compose up -d --build'
     os.system(command)
-    return True
+    notify_callback('Done!')
 
 
 if __name__ == '__main__':
