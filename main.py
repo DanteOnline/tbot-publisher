@@ -3,7 +3,6 @@ from telegram.ext import Updater, CommandHandler, ConversationHandler, MessageHa
 from view import start, help_command, publish, secret_command, question, QUESTION, cancel
 
 BOT_TOKEN = config('bot_token')
-# 5120999777 - добавить в ID
 
 def main() -> None:
     updater = Updater(BOT_TOKEN)
